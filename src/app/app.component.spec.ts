@@ -1,31 +1,44 @@
-import { TestBed, async } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import { AddProductComponent } from "./add-product/add-product.component";
+import { ComponentFixture, TestBed, async } from "@angular/core/testing";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-describe('AppComponent', () => {
-  beforeEach(async(() => {
+fdescribe("add product component tests", () => {
+  let component: AddProductComponent;
+  let fixture: ComponentFixture<AddProductComponent>;
+
+  beforeEach(async () => {
     TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
-      ],
+      declarations: [AddProductComponent],
+      imports: [FormsModule, ReactiveFormsModule],
     }).compileComponents();
-  }));
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    fixture = TestBed.createComponent(AddProductComponent);
+    component = fixture.componentInstance;
+  });
+  it("is add-product component defined", () => {
+    expect(component).toBeDefined();
   });
 
-  it(`should have as title 'angular-unit-tests'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('angular-unit-tests');
+  it("is form invalid when empty", () => {
+    let itemName = component.rForm.controls["name"];
+    itemName.setValue("Mobile");
+    let itemPrice = component.rForm.controls["price"];
+    itemPrice.setValue("10000");
+    let itemShipping = component.rForm.controls["shipping"];
+    itemShipping.setValue("100");
+    expect(component.rForm.valid).toBeTruthy();
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('angular-unit-tests app is running!');
+  it("is form invalid when name less than 3", () => {
+    let itemName = component.rForm.controls["name"];
+    itemName.setValue("Mobile");
+    let itemPrice = component.rForm.controls["price"];
+    itemPrice.setValue("10000");
+    let itemShipping = component.rForm.controls["shipping"];
+    itemShipping.setValue("100");
+
+    expect(component.rForm.valid).toBeTruthy();
+    expect(component.rForm.controls["name"].valid).toBeTruthy();
+    // expect(itemPrice.errors['min']).toBeDefined();
   });
 });
